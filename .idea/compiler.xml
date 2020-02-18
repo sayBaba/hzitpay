@@ -9,11 +9,11 @@
         <module name="hzitpay" />
         <module name="pay-manager" />
         <module name="pay-service" />
+        <module name="shop" />
         <module name="eureka" />
         <module name="pay-web" />
-        <module name="common" />
         <module name="gate-way" />
-        <module name="shop" />
+        <module name="common" />
       </profile>
     </annotationProcessing>
   </component>

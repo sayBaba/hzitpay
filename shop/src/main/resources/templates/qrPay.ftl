@@ -37,8 +37,8 @@
         </table>
     </div>
 
-   <#if (client == 'alipay')>
-       ${payUrl}
+    <#if (client == 'alipay')>
+        ${payUrl}
     </#if>
 
 
