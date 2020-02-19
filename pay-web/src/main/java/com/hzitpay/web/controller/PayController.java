@@ -211,10 +211,10 @@ public class PayController {
 
                 return payRlt;
             default:
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("retCode","FAIL");
+                JSONObject jsonObject1 = new JSONObject();
+                jsonObject1.put("retCode","FAIL");
                 String msg = "不支持的支付渠道类型"+"[channelId="+channelId+"]" ;
-                jsonObject.put("retMsg",msg);
+                jsonObject1.put("retMsg",msg);
                 return msg;
 //              return XXPayUtil.makeRetFail(XXPayUtil.makeRetMap(PayConstant.RETURN_VALUE_FAIL, "不支持的支付渠道类型[channelId="+channelId+"]", null, null));
         }

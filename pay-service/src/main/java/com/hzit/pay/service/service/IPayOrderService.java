@@ -14,4 +14,13 @@ public interface IPayOrderService {
      * @return
      */
     public int createPayOrder(PayOrder payOrder);
+
+
+    /**
+     * 更新支付流水
+     * @param payOrder
+     * @return
+     */
+    public int updatePayOrder(PayOrder payOrder);
+
 }
