@@ -1,6 +1,7 @@
 package com.hzit.pay.service.mq;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hzit.common.utils.MyBase64;
 import com.hzit.common.utils.PayDigestUtil;
 import com.hzit.common.utils.XXPayUtil;
 import com.hzit.pay.service.config.MQConfig;
@@ -28,7 +29,7 @@ public class NotifyMchCustomer {
 
     private static final Logger logger = LoggerFactory.getLogger(NotifyMchCustomer.class);
 
-   String mechNotifyUrl = "http://uwyyqb.natappfree.cc/notify/payRlt?";
+    String mechNotifyUrl = "http://uwyyqb.natappfree.cc/notify/payRlt?params=";
 
 
     @Autowired
@@ -64,13 +65,20 @@ public class NotifyMchCustomer {
         paramMap.put("channelId",payOrder.getChannelId());
 
         String respSign = PayDigestUtil.getSign(paramMap, "qwe123");
-        logger.info("订单号：{},异步通知商户生成的加密密文：{}",payOrder.getMchOrderNo(),respSign);
+        logger.info("订单号：{},异步通知商户生成的加密密文：{}",payOrder.getPayOrderId(),respSign);
         paramMap.put("sign", respSign);// 签名
 
         String respData = "params=" + paramMap.toJSONString();
+        logger.info("订单号：{},respData：{}",payOrder.getPayOrderId(),respData);
+
+
         //发送通知
+        respData = MyBase64.encode(respData.getBytes());
+
+        logger.info("respData：{}",payOrder.getPayOrderId(),respData);
+
         String result = XXPayUtil.call4Post(mechNotifyUrl + respData);
-        logger.info("订单号：{},异步通知返回的结果：{}",payOrder.getMchOrderNo(),result);
+        logger.info("订单号：{},异步通知返回的结果：{}",payOrder.getPayOrderId(),result);
 
         // 通知5次--5次没有收到结果,那就通知失败：3 否则就是通知中：1, 成功就是：2
         MchNotify mchNotify = mchNotifyMapper.selectByPrimaryKey(payOrder.getPayOrderId());
@@ -167,5 +175,12 @@ public class NotifyMchCustomer {
 
     }
 
+    public static void main(String[] args) {
+        String mechNotifyUrl = "http://uwyyqb.natappfree.cc/notify/payRlt?params=";
+
+        String result = XXPayUtil.call4Post(mechNotifyUrl + "1111");
+        System.out.println(result);
+
+    }
 
 }
