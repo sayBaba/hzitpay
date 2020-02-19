@@ -9,8 +9,8 @@
         <module name="hzitpay" />
         <module name="pay-manager" />
         <module name="pay-service" />
-        <module name="shop" />
         <module name="eureka" />
+        <module name="shop" />
         <module name="pay-web" />
         <module name="gate-way" />
         <module name="common" />

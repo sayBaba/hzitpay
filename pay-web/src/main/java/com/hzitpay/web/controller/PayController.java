@@ -195,7 +195,21 @@ public class PayController {
 
         switch (channelId) {
             case PayConstant.PAY_CHANNEL_ALIPAY_WAP :
-                return payChannelClient.alipayWapPayment(getJsonParam("payOrder", payOrder));
+             String payRlt =  payChannelClient.alipayWapPayment(getJsonParam("payOrder", payOrder));
+                //TODO 解析 json 判断结果
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("retCode","SUCCESS");
+                jsonObject.put("retMsg","请求成功");
+
+                JSONObject data = new JSONObject();
+                data.put("payUrl","");
+
+                // 算出sign值
+
+                data.put("sign","");
+
+                return payRlt;
             default:
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("retCode","FAIL");

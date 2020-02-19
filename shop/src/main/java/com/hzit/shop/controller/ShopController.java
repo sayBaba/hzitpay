@@ -123,25 +123,20 @@ public class ShopController {
         //3.2 发送请求到支付系统
         //TODO 1.同步接口：快捷支付，签约，2.异步需要跳转页面。
 
-         String baseUrl = "http://127.0.0.1:1111/pay-service"; //zuul网关地址
+        String baseUrl = "http://127.0.0.1:1111/pay-service"; //zuul网关地址
 
         String result = XXPayUtil.call4Post(baseUrl+"/pay/create_order?" + reqData); //TODO
         JSONObject object = JSONObject.parseObject(result);
 
         JSONObject data =  JSONObject.parseObject(object.getString("data"));
 
-
-
         //返回的数据要做签名认证 TODO
+
         logger.info("返回的result:{}" ,result);
-//        modelMap.addAttribute("resCode","SUCCESS");
-//
-//        modelMap.addAttribute("resMsg",object.getString("retMsg"));
+
 
         Map params = new HashMap<>();
         params.put("resCode", "SUCCESS");
-
-
 
         modelMap.addAttribute("client",client);
         modelMap.put("result", "success");
@@ -149,21 +144,9 @@ public class ShopController {
         modelMap.addAttribute("orderMap",params);
         modelMap.put("goodsOrder", goodsOrder);
         modelMap.put("amount", AmountUtil.convertCent2Dollar(goodsOrder.getAmount()+""));
-        modelMap.addAttribute("payUrl",data.getString("payUrl"));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        String url = data.getString("payUrl");
+        System.out.println("---url=" + url);
+        modelMap.addAttribute("payUrl",url);
 
         //4.更新订单状态
         return view;
