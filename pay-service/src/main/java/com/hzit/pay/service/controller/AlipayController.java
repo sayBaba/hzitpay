@@ -40,4 +40,21 @@ public class AlipayController {
         logger.info("处理完支付宝手机网站支付请求，返回参数：{}....",jsonObject.toJSONString());
         return jsonObject.toJSONString();
     }
+
+    /**
+     * 支付查询
+     * @param outTradeNo
+     * @param tradeNo
+     * @return
+     */
+    @RequestMapping("/wapPayQuery")
+    public String alipayWapPay(@RequestParam String outTradeNo,@RequestParam String tradeNo){
+        // 1.参数判断，
+        // 2.查询支付流水表中状态
+        //3.调用支付查询接口
+        //4.解析支付宝回来的参数，更新交易流水表
+        //5.封装返回对象。
+
+        return alipayUtil.alipayTradeQuery(outTradeNo,tradeNo);
+    }
 }

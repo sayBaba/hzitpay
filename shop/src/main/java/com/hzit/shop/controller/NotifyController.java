@@ -19,7 +19,7 @@ public class NotifyController {
      */
     @RequestMapping("/payRlt")
     public String reciveNotice(@RequestParam String params){
-        logger.info("###### 接受到支付回调请求 ######，请求参数：{}", params);
+        logger.info("###### 接受到支付系统回调请求 ######，请求参数：{}", params);
         // 解析 json
 
         //字段判断。

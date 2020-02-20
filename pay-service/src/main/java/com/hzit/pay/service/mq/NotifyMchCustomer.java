@@ -29,7 +29,7 @@ public class NotifyMchCustomer {
 
     private static final Logger logger = LoggerFactory.getLogger(NotifyMchCustomer.class);
 
-    String mechNotifyUrl = "http://uwyyqb.natappfree.cc/notify/payRlt?params=";
+    String mechNotifyUrl = "http://g7xsw9.natappfree.cc/notify/payRlt?params=";
 
 
     @Autowired
@@ -104,14 +104,12 @@ public class NotifyMchCustomer {
                 mchNotify.setUpdateTime(date);
                 String dbRlt = result+":"+respData;
                 mchNotify.setResult(dbRlt);
-                Integer count = mchNotify.getNotifyCount().intValue()+1;
+                Integer count = 1;
                 mchNotify.setNotifyCount(count.byteValue());
                 Byte status = 2;
                 mchNotify.setStatus(status);
                 mchNotifyMapper.insertSelective(mchNotify);
             }
-
-
 
 
             //手动确认
@@ -176,11 +174,15 @@ public class NotifyMchCustomer {
     }
 
     public static void main(String[] args) {
-        String mechNotifyUrl = "http://uwyyqb.natappfree.cc/notify/payRlt?params=";
+//        String mechNotifyUrl = "http://uwyyqb.natappfree.cc/notify/payRlt?params=";
+//
+//        String result = XXPayUtil.call4Post(mechNotifyUrl + "1111");
+//        System.out.println(result);
 
-        String result = XXPayUtil.call4Post(mechNotifyUrl + "1111");
-        System.out.println(result);
 
+             String xx =   new String (MyBase64.decode("cGFyYW1zPXsic2lnbiI6IkUyNEU3MUUxNjY1RDlCNDk0NDRFRjQ5MjFBNkVCMzkyIiwic3RhdHVzIjoyfQ=="));
+
+             System.out.println(xx);
     }
 
 }

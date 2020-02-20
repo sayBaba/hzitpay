@@ -79,7 +79,7 @@
             return;
         }
         $("#vAmt").text(vAmt+'元');
-        var qrText = 'http://uwyyqb.natappfree.cc/shop/recPay?amount=' + (vAmt*100);
+        var qrText = 'http://g7xsw9.natappfree.cc/shop/recPay?amount=' + (vAmt*100);
         qrcode.makeCode(qrText);
     }
 

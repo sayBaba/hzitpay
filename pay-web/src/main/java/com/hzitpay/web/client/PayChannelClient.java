@@ -41,5 +41,13 @@ public interface PayChannelClient {
     public String alipayWapPayment(@RequestParam String jsonParam);
 
 
+    /**
+     * 查询支付宝交易
+     * @return
+     */
+    @RequestMapping(value ="/alipay/wapPayQuery",method = RequestMethod.POST)
+    public String tradeQuery(@RequestParam String outTradeNo,@RequestParam String tradeNo);
+
+
 
 }

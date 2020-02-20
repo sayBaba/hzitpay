@@ -23,5 +23,10 @@ public class PayChannelClientImpl implements PayChannelClient {
         return null;
     }
 
+    @Override
+    public String tradeQuery(String outTradeNo, String tradeNo) {
+        return null;
+    }
+
 
 }
