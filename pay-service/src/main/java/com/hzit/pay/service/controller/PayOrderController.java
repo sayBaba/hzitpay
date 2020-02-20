@@ -2,11 +2,14 @@ package com.hzit.pay.service.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.hzit.common.resp.BaseResp;
+import com.hzit.common.resp.PayOrderData;
 import com.hzit.pay.service.model.PayOrder;
 import com.hzit.pay.service.service.IPayOrderService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,6 +53,20 @@ public class PayOrderController {
         logger.info("支付订单返回参数,jsonParam={}", jsonParam);
 
         return retObj.toJSONString();
+    }
+
+
+    @RequestMapping(value = "/query")
+    public BaseResp queryPayOrder(@RequestParam String mchOrderNo) {
+        logger.info("接收查询支付流水订单请求,mchOrderNo={}", mchOrderNo);
+        BaseResp baseResp = new BaseResp();
+        PayOrder payOrder = iPayOrderService.getPayOrderBymchOrderId("10000",mchOrderNo);
+        baseResp.setRetCode("SUCCESS");
+        baseResp.setRetMsg("查询成功");
+        PayOrderData payOrderData = new PayOrderData();
+        BeanUtils.copyProperties(payOrder,payOrderData);
+        baseResp.setData(payOrderData);
+        return baseResp;
     }
 
 

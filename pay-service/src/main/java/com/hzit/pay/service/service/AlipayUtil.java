@@ -6,8 +6,10 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.AlipayResponse;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradeQueryRequest;
+import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipayTradeQueryResponse;
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.alipay.api.response.AlipayTradeWapPayResponse;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.hzit.common.utils.AmountUtil;
@@ -125,6 +127,58 @@ public class AlipayUtil {
         return null;
     }
 
+    /**
+     * 支付宝退款接口
+     * @return
+     */
+    public String  alipayTradeRefund(String outTradeNo, String tradeNo,String refundAmt,String outRequestNo){
+        AlipayClient alipayClient = new DefaultAlipayClient(apiUrl,appid,privateKey,"json","GBK",pubKey,"RSA2");
+
+        AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
+
+        JSONObject bizContent = new JSONObject();
+        /*******************比传*********************/
+        bizContent.put("out_trade_no","581060c3aee648edab8eeaa486be3092");
+
+        bizContent.put("out_request_no",""); // 一次性全部退款字段为空，退款金额等于原支付金额，    部分退款：字段不能为空，退款金额少于原支付金额。
+
+        bizContent.put("trade_no","");
+        bizContent.put("refund_amount","200");
+
+        /***************可选*********************/
+        bizContent.put("refund_currency","");
+        bizContent.put("refund_reason","");
+        bizContent.put("out_request_no","");
+        bizContent.put("operator_id","");
+        bizContent.put("store_id","");
+        bizContent.put("terminal_id","");
+        bizContent.put("goods_detail",null);
+        bizContent.put("refund_royalty_parameters",null);
+        bizContent.put("org_pid",null);
+        request.setBizContent(bizContent.toJSONString());
+
+
+        AlipayTradeRefundResponse response = null;
+        try {
+            response = alipayClient.execute(request);
+
+
+        } catch (AlipayApiException e) {
+            logger.error("AlipayApiException",e);
+        }
+        if(response.isSuccess()){
+            System.out.println("调用成功");
+        } else {
+            System.out.println("调用失败");
+        }
+
+
+
+
+        return null;
+    }
+
+
 
 
 
@@ -137,7 +191,7 @@ public class AlipayUtil {
         payOrder.setSubject("test00");
         payOrder.setPayOrderId(String.valueOf(System.currentTimeMillis()));
 
-        alipayUtil.alipayTradeQuery("092aa9c6ae2a4d3796dccdd3a7c98b43",null);
+//        alipayUtil.alipayTradeRefund();
 
     }
 

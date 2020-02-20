@@ -23,4 +23,11 @@ public interface IPayOrderService {
      */
     public int updatePayOrder(PayOrder payOrder);
 
+
+    /**
+     * 根据商户订单号查询
+     * @param mchOrderId
+     * @return
+     */
+    public PayOrder getPayOrderBymchOrderId(String mchId,String mchOrderId);
 }

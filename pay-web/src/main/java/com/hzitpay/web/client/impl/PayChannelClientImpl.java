@@ -15,17 +15,22 @@ public class PayChannelClientImpl implements PayChannelClient {
 
     @Override
     public String createPayOrder(String jsonParam) {
-        return null;
+        return "error";
     }
 
     @Override
     public String alipayWapPayment(String jsonParam) {
-        return null;
+        return "error";
     }
 
     @Override
     public String tradeQuery(String outTradeNo, String tradeNo) {
-        return null;
+        return "error";
+    }
+
+    @Override
+    public String queryPayOrder(String mchOrderNo) {
+        return "error";
     }
 
 

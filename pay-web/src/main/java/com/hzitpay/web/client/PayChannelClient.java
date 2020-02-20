@@ -1,6 +1,8 @@
 package com.hzitpay.web.client;
 
 import com.hzit.common.req.PayChannelReq;
+import com.hzit.common.req.RefundOrderReq;
+import com.hzit.common.resp.BaseResp;
 import com.hzitpay.web.client.impl.PayChannelClientImpl;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -47,6 +49,23 @@ public interface PayChannelClient {
      */
     @RequestMapping(value ="/alipay/wapPayQuery",method = RequestMethod.POST)
     public String tradeQuery(@RequestParam String outTradeNo,@RequestParam String tradeNo);
+
+
+    /**
+     * 查询支付流水
+     * @return
+     */
+    @RequestMapping(value ="/payOrder/query",method = RequestMethod.POST)
+    public BaseResp queryPayOrder(@RequestParam String mchOrderNo);
+
+
+    /**
+     * 创建退款流水
+     * @param refundOrderReq
+     * @return
+     */
+    @RequestMapping(value = "/refund/create",method = RequestMethod.POST)
+    public String createRefundOrder(@RequestBody RefundOrderReq refundOrderReq);
 
 
 

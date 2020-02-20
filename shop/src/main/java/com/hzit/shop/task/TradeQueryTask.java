@@ -18,7 +18,7 @@ public class TradeQueryTask {
 
     private Logger logger = LoggerFactory.getLogger(TradeQueryTask.class);
 
-    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 */20 * * * ?")
     public void query(){
         logger.info("*******定时任务-支付查询开始执行*****");
 
@@ -40,8 +40,7 @@ public class TradeQueryTask {
 
         //返回的数据要做签名认证 TODO
 
-
-
+        //更新订单表
 
     }
 

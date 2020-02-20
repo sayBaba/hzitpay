@@ -29,4 +29,9 @@ public class PayOrderServiceImpl implements IPayOrderService {
         return payOrderMapper.updateByExampleSelective(payOrder, example);
 
     }
+
+    @Override
+    public PayOrder getPayOrderBymchOrderId(String mchId, String mchOrderId) {
+         return payOrderMapper.selectByMchOrderId(mchId,mchOrderId);
+    }
 }
