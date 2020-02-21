@@ -5,20 +5,26 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.AlipayResponse;
 import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.request.AlipayDataDataserviceBillDownloadurlQueryRequest;
 import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
+import com.alipay.api.response.AlipayDataDataserviceBillDownloadurlQueryResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
-import com.alipay.api.response.AlipayTradeWapPayResponse;
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.hzit.common.utils.AmountUtil;
 import com.hzit.pay.service.model.PayOrder;
+import org.apache.commons.httpclient.util.HttpURLConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * 支付宝支付接口
@@ -179,6 +185,77 @@ public class AlipayUtil {
     }
 
 
+    /**
+     * 支付宝对账-1.获取对账文件下载地址
+     */
+    public String alipayRecon(String reonDate){
+
+        AlipayClient alipayClient = new DefaultAlipayClient(apiUrl,appid,privateKey,"json","GBK",pubKey,"RSA2");
+        AlipayDataDataserviceBillDownloadurlQueryRequest request = new AlipayDataDataserviceBillDownloadurlQueryRequest();//创建API对应的request类
+        JSONObject bizContent = new JSONObject();
+        bizContent.put("bill_type","trade");
+        bizContent.put("bill_date",reonDate);
+        request.setBizContent(bizContent.toJSONString());
+
+        AlipayDataDataserviceBillDownloadurlQueryResponse response = null;//通过alipayClient调用API，获得对应的response类
+        try {
+            response = alipayClient.execute(request);
+            System.out.print(response.getBillDownloadUrl());
+            return response.getBillDownloadUrl();
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+            return null;
+        }
+        //根据response中的结果继续业务逻辑处理
+
+    }
+
+    /**
+     * 支付宝对账-2.生成对账文件
+     * @param urlStr
+     */
+    public void createReconFile(String urlStr ) throws Exception {
+
+//        String urlStr = "http://dwbillcenter.alipay.com/downloadBillFile.resource?bizType=X&userId=X&fileType=X&bizDates=X&downloadFileName=X&fileId=X";
+        //指定希望保存的文件路径
+        String filePath = "D:/fund_bill_20160405.zip";
+        URL url = null;
+        HttpURLConnection httpUrlConnection = null;
+        InputStream fis = null;
+        FileOutputStream fos = null;
+        try {
+            url = new URL(urlStr);
+            httpUrlConnection = (HttpURLConnection) url.openConnection();
+            httpUrlConnection.setConnectTimeout(5 * 1000);
+            httpUrlConnection.setDoInput(true);
+            httpUrlConnection.setDoOutput(true);
+            httpUrlConnection.setUseCaches(false);
+            httpUrlConnection.setRequestMethod("GET");
+            httpUrlConnection.setRequestProperty("Charsert", "UTF-8");
+            httpUrlConnection.connect();
+            fis = httpUrlConnection.getInputStream();
+            byte[] temp = new byte[1024];
+            int b;
+            fos = new FileOutputStream(new File(filePath));
+            while ((b = fis.read(temp)) != -1) {
+                fos.write(temp, 0, b);
+                fos.flush();
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(fis!=null) fis.close();
+                if(fos!=null) fos.close();
+                if(httpUrlConnection!=null) httpUrlConnection.disconnect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 
 
 
@@ -191,7 +268,8 @@ public class AlipayUtil {
         payOrder.setSubject("test00");
         payOrder.setPayOrderId(String.valueOf(System.currentTimeMillis()));
 
-//        alipayUtil.alipayTradeRefund();
+        alipayUtil.alipayRecon("2020-02-20");
+
 
     }
 

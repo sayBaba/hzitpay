@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @EnableScheduling
-public class RefundTask {
+public class AlipayRefundTask {
 
-    private Logger logger = LoggerFactory.getLogger(RefundTask.class);
+    private Logger logger = LoggerFactory.getLogger(AlipayRefundTask.class);
 
     @Autowired
     private IRefundService iRefundService;
